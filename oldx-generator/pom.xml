@@ -11,6 +11,7 @@
 
     <groupId>cc.mroldx.admin</groupId>
     <artifactId>oldx-generator</artifactId>
+    <version>1.0</version>
     <dependencies>
         <!-- MyBatis 生成器 -->
         <dependency>

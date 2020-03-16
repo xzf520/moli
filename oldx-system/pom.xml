@@ -12,5 +12,17 @@
     <groupId>cc.mroldx.admin</groupId>
     <artifactId>oldx-system</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>cc.mroldx.admin</groupId>
+            <artifactId>oldx-generator</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cc.mroldx</groupId>
+            <artifactId>oldx-common</artifactId>
+            <version>1.0</version>
+        </dependency>
 
+    </dependencies>
 </project>
