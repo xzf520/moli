@@ -4,7 +4,6 @@ import cc.oldx.mbg.domain.OSysUser;
 import cc.oldx.modules.security.bo.OSysUserDetails;
 import cc.oldx.modules.system.service.OAdminService;
 import cc.oldx.modules.system.service.OsMenuService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -32,19 +31,16 @@ public class OSysUserDetailsService implements UserDetailsService {
         OSysUser user = this.OadminService.getAdminByUsername(username);
         if (user != null) {
             String userPermissions = this.OsMenuService.findUserPermissions(username);
-            boolean notLocked = false;
-            //判断帐号有效性
-            if (StringUtils.equals(OSysUser.STATUS_VALID, user.getStatus())) {
-                notLocked = true;
-                OSysUserDetails userDetails = new OSysUserDetails(user.getUsername(), user.getPassword(), true, true, true, notLocked,
-                        AuthorityUtils.commaSeparatedStringToAuthorityList(userPermissions));
-                userDetails.setUserId(user.getUserId());
-                userDetails.setPassword(user.getPassword());
-                return userDetails;
-            }
-        }else {
+          //  boolean notLocked = false;
+/*            //判断帐号有效性
+            if(StringUtils.equals(OSysUser.STATUS_VALID, user.getStatus()))
+                notLocked = true;*/
+            OSysUserDetails userDetails = new OSysUserDetails(user.getUsername(), user.getPassword(), true, true, true, true,
+                    AuthorityUtils.commaSeparatedStringToAuthorityList(userPermissions));
+            userDetails.setPassword(user.getPassword());
+            return userDetails;
+        } else {
             throw new UsernameNotFoundException("用户名不存在");
         }
-        return null;
     }
 }

@@ -29,27 +29,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private OldxAuthenticationAccessDeniedHandler oldxAccessDeniedHandler;
-    @Autowired
     private OldxAuthenticationEntryPoint oldxAuthenticationEntryPoint;
     @Autowired
-    private OSysUserDetailsService oSysUserDetailsService;
-
+    private OSysUserDetailsService OSysUserDetailsService;
+    @Autowired
+    private OldxAuthenticationAccessDeniedHandler oldxAuthenticationAccessDeniedHandler;
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        log.info("开始执行securityConfig");
         httpSecurity.csrf()
                 .disable()
                 .sessionManagement()
                 //禁止创建session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                //处理用户逻辑
-                .userDetailsService(oSysUserDetailsService)
+                .userDetailsService(OSysUserDetailsService)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,
                         "/",
@@ -66,9 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //跨域前先进行options
                 .antMatchers(HttpMethod.OPTIONS)
                 .permitAll()
-               /* //测试时全部运行访问
-                .antMatchers("/**")
-                .permitAll()*/
+                .antMatchers("/hello5").access("hasAuthority('user:add')")
+                /* //测试时全部运行访问
+                 .antMatchers("/**")
+                 .permitAll()*/
                 .anyRequest()// 除上面外的所有请求全部需要鉴权认证
                 .authenticated();
         // 禁用缓存
@@ -77,23 +77,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         //添加拦截器
         httpSecurity.exceptionHandling()
-                .accessDeniedHandler(oldxAccessDeniedHandler)
+                .accessDeniedHandler(oldxAuthenticationAccessDeniedHandler)
                 .authenticationEntryPoint(oldxAuthenticationEntryPoint);
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
         return new JwtAuthenticationTokenFilter();
     }
+
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 }
