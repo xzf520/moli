@@ -1,6 +1,8 @@
 package cc.oldx.modules.system.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,8 +18,15 @@ public class IndexCtroller {
         return "欢迎来到oldx-admin";
     }
 
-    @RequestMapping("/hello1")
+    @PreAuthorize("hasAuthority('user:add99999999')")
+    @RequestMapping(value = "/hello1", method = RequestMethod.POST)
     private String hello1() {
-        return "欢迎来到oldx-admin";
+        return "欢迎来到oldx-admin321312";
+    }
+
+    @RequestMapping("/hello2")
+    @PreAuthorize("hasAuthority('user:add')")
+    private String hello2() {
+        return "欢迎来到oldx-admin321312";
     }
 }

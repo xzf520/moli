@@ -5,6 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class OSysUser implements Serializable {
+    /**
+     * 账户状态
+     */
+    public static final String STATUS_VALID = "1";
+
+    public static final String STATUS_LOCK = "0";
+
     @ApiModelProperty(value = "用户ID")
     private Long userId;
 

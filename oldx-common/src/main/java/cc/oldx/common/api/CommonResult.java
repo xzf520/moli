@@ -77,6 +77,9 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> validateFailed(String message) {
         return new CommonResult<T>(ResultCode.VALIDATE_FAILED.getCode(), message, null);
     }
+    /**
+     * 用户名已存在
+     */
 
     /**
      * 未登录返回结果

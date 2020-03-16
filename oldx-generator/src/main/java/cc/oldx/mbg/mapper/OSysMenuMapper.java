@@ -2,8 +2,9 @@ package cc.oldx.mbg.mapper;
 
 import cc.oldx.mbg.domain.OSysMenu;
 import cc.oldx.mbg.domain.OSysMenuExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OSysMenuMapper {
     long countByExample(OSysMenuExample example);
@@ -33,4 +34,11 @@ public interface OSysMenuMapper {
     int updateByPrimaryKeyWithBLOBs(OSysMenu record);
 
     int updateByPrimaryKey(OSysMenu record);
+
+    /**
+     * 查询某个人所有权限菜单
+     * @param userName
+     * @return
+     */
+    List<OSysMenu> findUserPermissions(String userName);
 }

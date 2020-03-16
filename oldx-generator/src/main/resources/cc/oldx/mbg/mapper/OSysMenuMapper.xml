@@ -94,6 +94,14 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="findUserPermissions" resultMap="BaseResultMap">
+    SELECT m.perms from o_sys_role r
+    LEFT JOIN	o_sys_user_role osur on(r.id=osur.role_id)
+    LEFT JOIN o_sys_user ou on(ou.user_id=osur.user_id)
+    LEFT JOIN o_sys_menu_role osm on(osm.role_id=r.id)
+    LEFT JOIN o_sys_menu m on(m.menu_id=osm.menu_id)
+    where ou.username=#{userName} and  m.perms is not null and m.perms &lt;&gt; ''
+  </select>
   <select id="selectByExample" parameterType="cc.oldx.mbg.domain.OSysMenuExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
