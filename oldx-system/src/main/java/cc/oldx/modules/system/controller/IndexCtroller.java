@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexCtroller {
     @RequestMapping("/hello")
-    private String hello(){
+    private String hello() {
+        return "欢迎来到oldx-admin";
+    }
+
+    @RequestMapping("/hello1")
+    private String hello1() {
         return "欢迎来到oldx-admin";
     }
 }

@@ -1,0 +1,6 @@
+server:
+  port: 8888
+  servlet:
+    session:
+      # session超时时间，单位为秒
+      timeout: 3600
